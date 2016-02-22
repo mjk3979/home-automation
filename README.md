@@ -1,0 +1,3 @@
+DEPENDENCIES
+=============
+pip install rxvc
