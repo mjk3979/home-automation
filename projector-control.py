@@ -5,19 +5,19 @@ import sys
 
 def get_device():
     device='/dev/ttyUSB0'
-    serial = serial.Serial()
-    serial.port = device
-    serial.baudrate = 19200
-    serial.bytesize = 8
-    serial.stopbits = 1
-    serial.timeout = 3
+    dev = serial.Serial()
+    dev.port = device
+    dev.baudrate = 19200
+    dev.bytesize = 8
+    dev.stopbits = 1
+    dev.timeout = 3
 
-    serial.open()
-    serial.flush()
+    dev.open()
+    dev.flush()
 
     time.sleep(3)
 
-    return serial
+    return dev
 
 
 def write_device(val):
