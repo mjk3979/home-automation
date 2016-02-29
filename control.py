@@ -9,10 +9,7 @@ mappings = {
 }
 
 def get_receiver():
-    receiver = cache.cached_receiver()
-    if receiver is None:
-        receiver = cache.find_receiver()
-        cache.cache_receiver(receiver)
+    receiver = cache.find_receiver()
     return receiver
 
 
