@@ -19,6 +19,8 @@
 PID_FILE=/tmp/home-automation.pid
 HOME_AUTOMATION_PATH=/home/matthew/projects/home-automation
 
+set -o xtrace
+
 do_start() {
     if [ -f "$PID_FILE" ]; then
         echo "ERROR: PID file exists!" >&2
@@ -26,7 +28,8 @@ do_start() {
     fi
     cd "${HOME_AUTOMATION_PATH}"
     python3.5 "home_automation.py" > out.log 2>error.log&
-    echo $? > "$PID_FILE"
+    echo $! > "$PID_FILE"
+    echo "Started..."
 }
 
 do_stop() {
