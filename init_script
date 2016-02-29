@@ -1,0 +1,31 @@
+#!/bin/bash
+
+PID_FILE=/tmp/home-automation.pid
+HOME_AUTOMATION_PATH=/home/matthew/projects/home-automation
+
+do_start() {
+    if [ -f "$PID_FILE" ]; then
+        echo "ERROR: PID file exists!" >&2
+        exit 1
+    fi
+    python3.5 "${HOME_AUTOMATION_PATH}/http-server.py"
+    echo $? > "$PID_FILE"
+}
+
+do_stop() {
+    if [ ! -f "$PID_FILE" ]; then
+        echo "ERROR: Doesn't appear to be running!" >&2
+        exit 2
+    fi
+    kill "$(cat "$PID_FILE")"
+    rm -f "$PID_FILE"
+}
+
+case "$1" in
+    start)
+        do_start
+    stop)
+        do_stop
+    restart)
+        do_stop && sleep 5 && do_start
+esac
