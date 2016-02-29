@@ -8,7 +8,7 @@ mapping['off'] = control.off
 class HTTPHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         global index_cache
-        if self.path == '/index':
+        if self.path in ('/index', '/', ''):
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
