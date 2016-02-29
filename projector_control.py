@@ -26,9 +26,20 @@ def write_device(val):
     dev.flush()
     dev.close()
 
+def read_write_device(val):
+    dev = get_device()
+    dev.write(val)
+    dev.flush()
+    resp = dev.read(100)
+    dev.close()
+    return resp
+
 def set_power(turn_on):
     instruction = b'(PWR1)' if turn_on else b'(PWR0)'
     write_device(instruction)
+
+def get_power():
+	print(read_write_device(b'(PWR?)'))
 
 def main():
     args = sys.argv
