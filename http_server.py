@@ -2,7 +2,7 @@ import http.server
 import socketserver
 import control
 
-mapping = {inp: lambda: control.set_input(inp) for inp in control.mappings}
+mapping = {inp: lambda inp=inp: control.set_input(inp) for inp in control.mappings}
 mapping['off'] = control.off
 
 class HTTPHandler(http.server.SimpleHTTPRequestHandler):
