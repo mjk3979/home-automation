@@ -1,11 +1,5 @@
-function desktop() {
+function send_command(cmd) {
     request = new XMLHttpRequest();
-    request.open('POST', '/desktop');
-    request.send(null);
-}
-
-function off() {
-    request = new XMLHttpRequest();
-    request.open('POST', '/off');
+    request.open('POST', '/' + cmd);
     request.send(null);
 }

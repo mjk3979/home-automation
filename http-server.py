@@ -2,18 +2,8 @@ import http.server
 import socketserver
 import control
 
-def desktop():
-    control.set_input('desktop')
-
-
-def off():
-    control.off()
-
-
-mapping = {
-    'desktop' : desktop,
-    'off' : off
-}
+mapping = {inp: lambda: control.set_input(inp) for inp in control.mappings}
+mapping['off'] = control.off
 
 class HTTPHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -36,11 +26,18 @@ class HTTPHandler(http.server.SimpleHTTPRequestHandler):
         return self.send_response(200)
 
 
+def generate_index():
+    global mapping
+    with open('web/index.html') as f:
+        template = f.read()
+    links = []
+    for action in mapping:
+        links.append('<a href="#" onclick="send_command(\'{inp}\');"><h2>{inp}</h2></a>'.format(inp=action))
+    return template.replace('#BODY', '\n'.join(links))
+
 def main():
     global index_cache
-    with open('web/index.html') as f:
-        index_cache = bytes(f.read().encode('UTF-8'))
-
+    index_cache = bytes(generate_index().encode('UTF-8'))
     PORT=8081
     httpd = socketserver.TCPServer(('', PORT), HTTPHandler)
     httpd.serve_forever()
