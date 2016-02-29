@@ -1,5 +1,21 @@
 #!/bin/bash
 
+### BEGIN INIT INFO
+# Provides:          home-automation
+# Required-Start:    $dhcpcd $syslog
+# Required-Stop:     $dhcpcd $syslog
+# Should-Start:      $portmap
+# Should-Stop:       $portmap
+# X-Start-Before:    nis
+# X-Stop-After:      nis
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Example initscript
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
+### END INIT INFO
+
 PID_FILE=/tmp/home-automation.pid
 HOME_AUTOMATION_PATH=/home/matthew/projects/home-automation
 
@@ -8,7 +24,8 @@ do_start() {
         echo "ERROR: PID file exists!" >&2
         exit 1
     fi
-    python3.5 "${HOME_AUTOMATION_PATH}/http-server.py"
+    cd "${HOME_AUTOMATION_PATH}"
+    python3.5 "home_automation.py" > out.log 2>error.log&
     echo $? > "$PID_FILE"
 }
 
@@ -24,8 +41,13 @@ do_stop() {
 case "$1" in
     start)
         do_start
+        ;;
     stop)
         do_stop
+        ;;
     restart)
         do_stop && sleep 5 && do_start
+        ;;
 esac
+
+exit 0
