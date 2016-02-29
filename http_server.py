@@ -35,11 +35,10 @@ def generate_index():
         links.append('<a href="#" onclick="send_command(\'{inp}\');"><h2>{inp}</h2></a>'.format(inp=action))
     return template.replace('#BODY', '\n'.join(links))
 
-def main():
+def main(port=8081):
     global index_cache
     index_cache = bytes(generate_index().encode('UTF-8'))
-    PORT=8081
-    httpd = socketserver.TCPServer(('', PORT), HTTPHandler)
+    httpd = socketserver.TCPServer(('', port), HTTPHandler)
     httpd.serve_forever()
     
 
