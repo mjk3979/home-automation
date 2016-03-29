@@ -4,8 +4,8 @@ import threading
 
 
 def main():
-    wiiu = threading.Thread(target=wiiu_daemon.main)
-    wiiu.start()
+    # wiiu = threading.Thread(target=wiiu_daemon.main)
+    # wiiu.start()
     http_server.main(port=80)
 
 
